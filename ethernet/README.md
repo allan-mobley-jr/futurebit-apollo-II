@@ -109,3 +109,40 @@ Below are the steps to install the script and run it periodically:
   2023-10-15 14:05:00 - Ping to 192.168.86.1 failed. Restarting interface enx287bd2ced43f.
   2023-10-15 14:05:01 - Interface enx287bd2ced43f restarted.
   ```
+
+### Step 4: Manage Log File Growth
+
+* Create a Logrotate Configuration File
+  
+  ```bash
+  sudo nano /etc/logrotate.d/network_checker
+  ```
+
+* Add the following content
+  
+  ```text
+  /var/log/network_checker.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    maxsize 1M
+    missingok
+    notifempty
+    copytruncate
+  }
+  ```
+
+* Save and exit (Ctrl+O, Enter, Ctrl+X)
+
+* Run logrotate manually to ensure it works
+  
+  ```bash
+  sudo logrotate -f /etc/logrotate.d/network_checker
+  ```
+
+* Check the Log File
+  
+  ```bash
+  cat /var/log/network_checker.log
+  ```
